@@ -7,6 +7,15 @@
 #include "mmu.h"
 #include "proc.h"
 
+struct {
+    int proc_indx;
+    struct node_t *next;
+} node_t;
+
+struct node_t *queue;
+
+int proc_glob = 10;
+
 int
 sys_fork(void)
 {
@@ -88,4 +97,15 @@ sys_uptime(void)
   xticks = ticks;
   release(&tickslock);
   return xticks;
+}
+
+int
+sys_setscheduler(void) {
+    int policy;
+    if(argint(0, &policy) < 0)
+        return -1;
+    myproc()->sched_policy = policy;
+    cprintf("sys_setscheduler(%d)\n", policy);
+
+    return 0;
 }

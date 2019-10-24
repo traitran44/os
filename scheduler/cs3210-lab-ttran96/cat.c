@@ -24,7 +24,7 @@ cat(int fd)
 int
 main(int argc, char *argv[])
 {
-  int fd, i;
+    int fd, i;
 
   if(argc <= 1){
     cat(0);
