@@ -6,6 +6,7 @@
 #include "x86.h"
 #include "proc.h"
 #include "spinlock.h"
+#include "sched.h"
 
 struct {
     struct spinlock lock;
@@ -15,7 +16,7 @@ struct {
 static struct proc *initproc;
 
 int queue_size = 0;
-node_t *proc_queue;
+node_t proc_queue[NPROC];
 
 int nextpid = 1;
 
@@ -350,9 +351,9 @@ scheduler(void) {
         acquire(&ptable.lock);
         if (fifoProc()) {
             cprintf("FIFO Proc\n");
-            node_t *curr_proc = remove_proc_q();
+            node_t *curr_node = remove_proc_q();
             for (int i = 0; i < NPROC; i++) {
-                if (ptable.proc[i].pid == curr_proc->pid) {
+                if (ptable.proc[i].pid == curr_node->pid) {
                     p = &ptable.proc[i];
                 }
             }
@@ -590,23 +591,19 @@ int
 sys_setscheduler(void) {
     int policy;
     int priority = 0;
-    int pid;
-    if (argint(0, &policy) < 0 || argint(1, &priority) < 0 || argint(2, &pid) < 0)
+    if (argint(0, &policy) < 0 || argint(1, &priority) < 0)
         return -1;
 
     myproc()->sched_policy = policy;
     acquire(&ptable.lock);
     if (policy == SCHED_FIFO) {
-        if (!proc_queue) { // empty list
-            proc_queue = (struct node_t *) kalloc();
-        }
-        insert_proc_q(priority, pid);
+        insert_proc_q(priority, myproc()->pid);
         yield();
     } else if (policy == SCHED_RR) {
     }
     release(&ptable.lock);
 
-    cprintf("sys_setscheduler(%d, %d, %d)\n", policy, priority, pid);
+    cprintf("sys_setscheduler(%d, %d)\n", policy, priority);
 
     return 0;
 }

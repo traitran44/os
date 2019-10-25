@@ -1,4 +1,4 @@
-# Install script for directory: /home/trai/Desktop/os/scheduler/cs3210-lab-ttran96
+# Install script for directory: /home/tt/Desktop/os/scheduler/cs3210-lab-ttran96
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

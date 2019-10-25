@@ -47,8 +47,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/xv6.dir/vm.c.o"
   "CMakeFiles/xv6.dir/wc.c.o"
   "CMakeFiles/xv6.dir/zombie.c.o"
-  "xv6.pdb"
   "xv6"
+  "xv6.pdb"
 )
 
 # Per-language clean rules from dependency scanning.

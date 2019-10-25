@@ -8,28 +8,28 @@
 		<Option virtualFolders="CMake Files\;"/>
 		<Build>
 			<Target title="all">
-				<Option working_dir="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug"/>
+				<Option working_dir="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="rebuild_cache">
-				<Option working_dir="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug"/>
+				<Option working_dir="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="xv6">
-				<Option output="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug/xv6" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug"/>
+				<Option output="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug/xv6" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -44,15 +44,15 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug/Makefile&quot;  VERBOSE=1 xv6"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug/Makefile&quot;  VERBOSE=1 xv6"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="xv6/fast">
-				<Option output="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug/xv6" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug"/>
+				<Option output="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug/xv6" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -67,234 +67,237 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug/Makefile&quot;  VERBOSE=1 xv6/fast"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug/Makefile&quot;  VERBOSE=1 xv6/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="edit_cache">
-				<Option working_dir="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug"/>
+				<Option working_dir="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/asm.h">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/asm.h">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/bio.c">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/bio.c">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/bootmain.c">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/bootmain.c">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/buf.h">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/buf.h">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/cat.c">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/cat.c">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/console.c">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/console.c">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/date.h">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/date.h">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/defs.h">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/defs.h">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/echo.c">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/echo.c">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/elf.h">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/elf.h">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/exec.c">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/exec.c">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/fcntl.h">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/fcntl.h">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/file.c">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/file.c">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/file.h">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/file.h">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/forktest.c">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/forktest.c">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/fs.c">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/fs.c">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/fs.h">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/fs.h">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/grep.c">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/grep.c">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/ide.c">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/ide.c">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/init.c">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/init.c">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/ioapic.c">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/ioapic.c">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/kalloc.c">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/kalloc.c">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/kbd.c">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/kbd.c">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/kbd.h">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/kbd.h">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/kill.c">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/kill.c">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/lapic.c">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/lapic.c">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/ln.c">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/ln.c">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/log.c">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/log.c">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/ls.c">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/ls.c">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/main.c">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/main.c">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/memide.c">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/memide.c">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/memlayout.h">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/memlayout.h">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/mkdir.c">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/mkdir.c">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/mkfs.c">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/mkfs.c">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/mmu.h">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/mmu.h">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/mp.c">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/mp.c">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/mp.h">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/mp.h">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/param.h">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/param.h">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/picirq.c">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/picirq.c">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/pipe.c">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/pipe.c">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/printf.c">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/printf.c">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/printfmt.c">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/printfmt.c">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/proc.c">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/proc.c">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/proc.h">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/proc.h">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/rm.c">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/rm.c">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/schedtest.c">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/sched.h">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/sh.c">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/schedtest.c">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/sleeplock.c">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/sh.c">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/sleeplock.h">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/sleeplock.c">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/spinlock.c">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/sleeplock.h">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/spinlock.h">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/spinlock.c">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/stat.h">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/spinlock.h">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/stressfs.c">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/stat.h">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/string.c">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/stressfs.c">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/syscall.c">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/string.c">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/syscall.h">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/syscall.c">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/sysfile.c">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/syscall.h">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/sysproc.c">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/sysfile.c">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/trap.c">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/sysproc.c">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/traps.h">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/trap.c">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/types.h">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/traps.h">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/uart.c">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/types.h">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/ulib.c">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/uart.c">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/umalloc.c">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/ulib.c">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/user.h">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/umalloc.c">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/usertests.c">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/user.h">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/vm.c">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/usertests.c">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/wc.c">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/vm.c">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/x86.h">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/wc.c">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/zombie.c">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/x86.h">
 			<Option target="xv6"/>
 		</Unit>
-		<Unit filename="/home/trai/Desktop/os/scheduler/cs3210-lab-ttran96/CMakeLists.txt">
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/zombie.c">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/tt/Desktop/os/scheduler/cs3210-lab-ttran96/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
 	</Project>

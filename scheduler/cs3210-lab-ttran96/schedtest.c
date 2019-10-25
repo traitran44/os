@@ -1,6 +1,7 @@
 #include "types.h"
 #include "stat.h"
 #include "user.h"
+#include "sched.h"
 
 int sched_test(int num);
 
@@ -9,19 +10,19 @@ sched_test(int num) {
     if (num == 0) {
         return 0;
     }
-    setscheduler(1, 0);
+    setscheduler(SCHED_RR, 0);
     int pid;
     int num_proc = 2;
     for (int i = 0; i < num_proc; i++) {
         pid = fork();
         printf(1, "Proc %d\n", pid);
         if (pid > 0) {
-            setscheduler(1, 0);
             if (i == num_proc - 1) {
                 pid = wait();
             }
         } else if (pid == 0) {
             int k = 0;
+            setscheduler(SCHED_RR, 0);
             for (int j = 0; j < 4000000000; j++) {
                 k += 1;
                 k *= 0.9;

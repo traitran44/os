@@ -1,10 +1,3 @@
-#ifndef SCHEDULER_T
-#define SCHEDULER_T
-#define SCHED_RR 0
-#define SCHED_FIFO 1
-#define SCHED_OTHER 2
-#endif
-
 typedef struct node_t {
     int pid;
     int priority;
