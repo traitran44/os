@@ -3,8 +3,7 @@ typedef struct node_t {
     int priority;
 } node_t;
 
-node_t*
-remove_proc_q();
+int remove_proc_q(void);
 
 int
 insert_proc_q(int priority, int pid);
@@ -46,6 +45,8 @@ struct context {
 enum procstate {
     UNUSED, EMBRYO, SLEEPING, RUNNABLE, RUNNING, ZOMBIE
 };
+extern struct cpu *cpu asm("%gs:0");       // &cpus[cpunum()]
+extern struct proc *proc asm("%gs:4");     // cpus[cpunum()].proc
 
 // Per-process state
 struct proc {

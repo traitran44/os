@@ -183,6 +183,7 @@ fork(void) {
     int i, pid;
     struct proc *np;
     struct proc *curproc = myproc();
+    cprintf("Parent proc: %d\n", curproc->pid);
 
     // Allocate process.
     if ((np = allocproc()) == 0) {
@@ -215,6 +216,7 @@ fork(void) {
     acquire(&ptable.lock);
 
     np->state = RUNNABLE;
+    cprintf("Child proc: %d\n", pid);
 
     release(&ptable.lock);
 
@@ -311,14 +313,7 @@ wait(void) {
 
 int
 fifoProc() {
-    struct proc *p;
-    for (int i = 0; i < NPROC; i++) {
-        p = ptable.proc + i;
-        if (p->sched_policy == SCHED_FIFO) {
-            return 1;
-        }
-    }
-    return 0;
+    return queue_size;
 }
 
 void
@@ -351,9 +346,9 @@ scheduler(void) {
         acquire(&ptable.lock);
         if (fifoProc()) {
             cprintf("FIFO Proc\n");
-            node_t *curr_node = remove_proc_q();
+            int curr_node = remove_proc_q();
             for (int i = 0; i < NPROC; i++) {
-                if (ptable.proc[i].pid == curr_node->pid) {
+                if (ptable.proc[i].pid == curr_node) {
                     p = &ptable.proc[i];
                 }
             }
@@ -371,10 +366,21 @@ scheduler(void) {
                 if (p->state != RUNNABLE)
                     continue;
 
+                for (int j = 0; j < NPROC; j++) {
+                    if (ptable.proc[j].pid > 2 && (ptable.proc[j].state == RUNNABLE || ptable.proc[j].state == RUNNING))
+                        cprintf("%d, ", ptable.proc[j].pid);
+                }
+                cprintf("\n");
+
+                if (p->pid >= 2)
+                    cprintf("Quee size: %d\n", queue_size);
+
+
                 // Switch to chosen process.  It is the process's job
                 // to release ptable.lock and then reacquire it
                 // before jumping back to us.
                 c->proc = p;
+                cprintf("SWITCH to : %d\n", p->pid);
                 switchuvm(p);
                 p->state = RUNNING;
 
@@ -389,7 +395,6 @@ scheduler(void) {
             }
         }
         release(&ptable.lock);
-
     }
 }
 
@@ -563,11 +568,11 @@ procdump(void) {
     }
 }
 
-node_t *
-remove_proc_q() {
-    node_t *first = 0;
+int
+remove_proc_q(void) {
+    int first = 0;
     if (queue_size > 0) {
-        first = proc_queue;
+        first = proc_queue->pid;
         // Shift all element left by 1
         for (int i = 1; i < queue_size; i++) {
             proc_queue[i - 1] = proc_queue[i];
@@ -580,6 +585,7 @@ remove_proc_q() {
 int
 insert_proc_q(int priority, int pid) {
     if (queue_size < NPROC) {
+        cprintf("INSert proc to fifo\n");
         node_t *last = proc_queue + queue_size++;
         last->priority = priority;
         last->pid = pid;
@@ -595,15 +601,18 @@ sys_setscheduler(void) {
         return -1;
 
     myproc()->sched_policy = policy;
+    cprintf("policy: %d", policy);
+    cprintf("priority: %d", priority);
     acquire(&ptable.lock);
     if (policy == SCHED_FIFO) {
+        cprintf("policy fifo\n");
         insert_proc_q(priority, myproc()->pid);
-        yield();
+//        yield();
     } else if (policy == SCHED_RR) {
     }
     release(&ptable.lock);
 
-    cprintf("sys_setscheduler(%d, %d)\n", policy, priority);
+//    cprintf("sys_setscheduler(%d, %d)\n", policy, priority);
 
     return 0;
 }
