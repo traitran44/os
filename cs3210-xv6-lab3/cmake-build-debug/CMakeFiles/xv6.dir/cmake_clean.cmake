@@ -2,6 +2,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/xv6.dir/bio.c.o"
   "CMakeFiles/xv6.dir/bootmain.c.o"
   "CMakeFiles/xv6.dir/cat.c.o"
+  "CMakeFiles/xv6.dir/clonetest.c.o"
   "CMakeFiles/xv6.dir/console.c.o"
   "CMakeFiles/xv6.dir/echo.c.o"
   "CMakeFiles/xv6.dir/exec.c.o"
