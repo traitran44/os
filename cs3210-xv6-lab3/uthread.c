@@ -81,7 +81,7 @@ thread_create(void (*func)())
   t->state = RUNNABLE;
 }
 
-void 
+void
 thread_yield(void)
 {
   current_thread->state = RUNNABLE;
@@ -89,11 +89,14 @@ thread_yield(void)
 }
 
 static void 
-mythread(void)
+thread1(void)
 {
   int i;
+  void *stack = malloc(STACK_SIZE);
+
+  clone(stack, STACK_SIZE);
   printf(1, "my thread running\n");
-  for (i = 0; i < 100; i++) {
+  for (i = 0; i < 25; i++) {
     printf(1, "my thread 0x%x\n", (int) current_thread);
     thread_yield();
   }
@@ -106,8 +109,22 @@ static void
 blockthread(void)
 {
     printf(1, "Block thread\n");
-    sleep(10000000000);
+    sleep(20);
     thread_yield();
+    current_thread->state = FREE;
+    thread_schedule();
+}
+
+static void
+thread2(void)
+{
+    int i;
+    printf(1, "my thread running\n");
+    for (i = 0; i < 50; i++) {
+        printf(1, "After block, my thread 0x%x\n", (int) current_thread);
+        thread_yield();
+    }
+    printf(1, "my thread: exit\n");
     current_thread->state = FREE;
     thread_schedule();
 }
@@ -117,9 +134,9 @@ int
 main(int argc, char *argv[]) 
 {
   thread_init();
-  thread_create(mythread);
+  thread_create(thread1);
   thread_create(blockthread);
-  thread_create(mythread);
+  thread_create(thread2);
   thread_schedule();
   return 0;
 }

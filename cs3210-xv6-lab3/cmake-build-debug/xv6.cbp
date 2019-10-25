@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="xv6"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/home/mai/trai_os/os/cs3210-xv6-lab3/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/mai/trai_os/os/cs3210-xv6-lab3/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/mai/trai_os/os/cs3210-xv6-lab3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/mai/trai_os/os/cs3210-xv6-lab3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/mai/trai_os/os/cs3210-xv6-lab3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/home/mai/trai_os/os/cs3210-xv6-lab3/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/mai/trai_os/os/cs3210-xv6-lab3/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/mai/trai_os/os/cs3210-xv6-lab3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/mai/trai_os/os/cs3210-xv6-lab3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/mai/trai_os/os/cs3210-xv6-lab3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="xv6">
+				<Option output="/home/mai/trai_os/os/cs3210-xv6-lab3/cmake-build-debug/xv6" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/mai/trai_os/os/cs3210-xv6-lab3/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/include/c++/8"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/8"/>
+					<Add directory="/usr/include/c++/8/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/8/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/8/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/mai/trai_os/os/cs3210-xv6-lab3/cmake-build-debug/Makefile&quot;  VERBOSE=1 xv6"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/mai/trai_os/os/cs3210-xv6-lab3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/mai/trai_os/os/cs3210-xv6-lab3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/mai/trai_os/os/cs3210-xv6-lab3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="xv6/fast">
+				<Option output="/home/mai/trai_os/os/cs3210-xv6-lab3/cmake-build-debug/xv6" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/mai/trai_os/os/cs3210-xv6-lab3/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/include/c++/8"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/8"/>
+					<Add directory="/usr/include/c++/8/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/8/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/8/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/mai/trai_os/os/cs3210-xv6-lab3/cmake-build-debug/Makefile&quot;  VERBOSE=1 xv6/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/mai/trai_os/os/cs3210-xv6-lab3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/mai/trai_os/os/cs3210-xv6-lab3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/mai/trai_os/os/cs3210-xv6-lab3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/home/mai/trai_os/os/cs3210-xv6-lab3/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/mai/trai_os/os/cs3210-xv6-lab3/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/mai/trai_os/os/cs3210-xv6-lab3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/mai/trai_os/os/cs3210-xv6-lab3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/mai/trai_os/os/cs3210-xv6-lab3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/asm.h">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/bio.c">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/bootmain.c">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/buf.h">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/cat.c">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/clonetest.c">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/console.c">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/date.h">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/defs.h">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/echo.c">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/elf.h">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/exec.c">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/fcntl.h">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/file.c">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/file.h">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/forktest.c">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/fs.c">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/fs.h">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/grep.c">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/ide.c">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/init.c">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/ioapic.c">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/kalloc.c">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/kbd.c">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/kbd.h">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/kill.c">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/lapic.c">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/ln.c">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/log.c">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/ls.c">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/main.c">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/memide.c">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/memlayout.h">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/mkdir.c">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/mkfs.c">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/mmu.h">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/mp.c">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/mp.h">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/param.h">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/picirq.c">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/pipe.c">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/printf.c">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/proc.c">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/proc.h">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/rm.c">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/sh.c">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/spinlock.c">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/spinlock.h">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/stat.h">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/stressfs.c">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/string.c">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/syscall.c">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/syscall.h">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/sysfile.c">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/sysproc.c">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/timer.c">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/trap.c">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/traps.h">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/types.h">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/uart.c">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/ulib.c">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/umalloc.c">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/user.h">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/usertests.c">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/uthread.c">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/vm.c">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/wc.c">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/x86.h">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/zombie.c">
+			<Option target="xv6"/>
+		</Unit>
+		<Unit filename="/home/mai/trai_os/os/cs3210-xv6-lab3/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
