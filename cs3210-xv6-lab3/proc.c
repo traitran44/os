@@ -173,7 +173,7 @@ fork(void)
 }
 
 int
-clone(void)
+clone(void* stk, int size)
 {
 
     int i, pid;
