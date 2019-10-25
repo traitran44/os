@@ -7,6 +7,7 @@
 #include "x86.h"
 #include "traps.h"
 #include "spinlock.h"
+#include "sched.h"
 
 // Interrupt descriptor table (shared by all CPUs).
 struct gatedesc idt[256];
@@ -105,6 +106,8 @@ trap(struct trapframe *tf)
   if(myproc() && myproc()->state == RUNNING &&
      tf->trapno == T_IRQ0+IRQ_TIMER) {
       cprintf("Time interrupt: pid %d\n", myproc()->pid);
+      if (myproc()->sched_policy == SCHED_FIFO && myproc()->state == RUNNING)
+          return;
       yield();
   }
 
