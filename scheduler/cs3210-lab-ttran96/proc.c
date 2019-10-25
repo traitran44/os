@@ -11,12 +11,12 @@
 struct {
     struct spinlock lock;
     struct proc proc[NPROC];
+    node_t proc_queue[NPROC];
+    int queue_size;
 } ptable;
 
 static struct proc *initproc;
 
-int queue_size = 0;
-node_t proc_queue[NPROC];
 
 int nextpid = 1;
 
@@ -216,7 +216,6 @@ fork(void) {
     acquire(&ptable.lock);
 
     np->state = RUNNABLE;
-    cprintf("Child proc: %d\n", pid);
 
     release(&ptable.lock);
 
@@ -248,6 +247,7 @@ exit(void) {
     end_op();
     curproc->cwd = 0;
 
+    cprintf("Exit acquire lock. PID: %d\n", myproc()->pid);
     acquire(&ptable.lock);
 
     // Parent might be sleeping in wait().
@@ -313,7 +313,7 @@ wait(void) {
 
 int
 fifoProc() {
-    return queue_size;
+    return ptable.queue_size;
 }
 
 void
@@ -343,10 +343,18 @@ scheduler(void) {
         sti();
 
         // Loop over process table looking for process to run.
+
         acquire(&ptable.lock);
-        if (fifoProc()) {
-            cprintf("FIFO Proc\n");
-            int curr_node = remove_proc_q();
+        int fifo_procs = fifoProc();
+        if (fifo_procs) {
+
+            cprintf("Proc Queue: ");
+            for (int k = 0; k < NPROC; k++) {
+                cprintf("%d, ", ptable.proc_queue[k]);
+            }
+            cprintf("\n");
+
+            int curr_node = first_proc_q();
             for (int i = 0; i < NPROC; i++) {
                 if (ptable.proc[i].pid == curr_node) {
                     p = &ptable.proc[i];
@@ -357,8 +365,12 @@ scheduler(void) {
             c->proc = p;
             switchuvm(p);
             p->state = RUNNING;
+            cprintf("switch to FIFO Proc. PID: %d\n", p->pid);
             swtch(&(c->scheduler), p->context);
             switchkvm();
+
+            remove_proc_q();
+
             c->proc = 0;
         } else {
             for (int i = 0; i < NPROC; i++) {
@@ -372,15 +384,12 @@ scheduler(void) {
                 }
                 cprintf("\n");
 
-                if (p->pid >= 2)
-                    cprintf("Quee size: %d\n", queue_size);
-
 
                 // Switch to chosen process.  It is the process's job
                 // to release ptable.lock and then reacquire it
                 // before jumping back to us.
                 c->proc = p;
-                cprintf("SWITCH to : %d\n", p->pid);
+                cprintf("Switch to RR proc. PID: %d\n", p->pid);
                 switchuvm(p);
                 p->state = RUNNING;
 
@@ -569,27 +578,34 @@ procdump(void) {
 }
 
 int
+first_proc_q(void) {
+    return ptable.proc_queue->pid;
+}
+
+int
 remove_proc_q(void) {
     int first = 0;
-    if (queue_size > 0) {
-        first = proc_queue->pid;
+    if (ptable.queue_size > 0) {
+        first = ptable.proc_queue->pid;
         // Shift all element left by 1
-        for (int i = 1; i < queue_size; i++) {
-            proc_queue[i - 1] = proc_queue[i];
+        for (int i = 1; i < ptable.queue_size; i++) {
+            ptable.proc_queue[i - 1] = ptable.proc_queue[i];
         }
-        queue_size--;
+        ptable.queue_size--;
     }
     return first;
 }
 
 int
 insert_proc_q(int priority, int pid) {
-    if (queue_size < NPROC) {
-        cprintf("INSert proc to fifo\n");
-        node_t *last = proc_queue + queue_size++;
+    acquire(&ptable.lock);
+    if (ptable.queue_size < NPROC) {
+        node_t *last = ptable.proc_queue + ptable.queue_size++;
         last->priority = priority;
         last->pid = pid;
+        cprintf("Insert proc to fifo. Queue Size: %d\n", ptable.queue_size);
     }
+    release(&ptable.lock);
     return 0;
 }
 
@@ -601,18 +617,12 @@ sys_setscheduler(void) {
         return -1;
 
     myproc()->sched_policy = policy;
-    cprintf("policy: %d", policy);
-    cprintf("priority: %d", priority);
-    acquire(&ptable.lock);
+    cprintf("sys_setscheduler(%d, %d). PID: %d\n", policy, priority, myproc()->pid);
     if (policy == SCHED_FIFO) {
-        cprintf("policy fifo\n");
         insert_proc_q(priority, myproc()->pid);
-//        yield();
+        yield();
     } else if (policy == SCHED_RR) {
     }
-    release(&ptable.lock);
-
-//    cprintf("sys_setscheduler(%d, %d)\n", policy, priority);
 
     return 0;
 }

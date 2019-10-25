@@ -8,6 +8,9 @@ int remove_proc_q(void);
 int
 insert_proc_q(int priority, int pid);
 
+int
+first_proc_q(void);
+
 // Per-CPU state
 struct cpu {
     uchar apicid;                // Local APIC ID
