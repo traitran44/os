@@ -5,6 +5,17 @@
 #define SCHED_OTHER 2
 #endif
 
+typedef struct node_t {
+    int pid;
+    int priority;
+} node_t;
+
+node_t*
+remove_proc_q();
+
+int
+insert_proc_q(int priority, int pid);
+
 // Per-CPU state
 struct cpu {
     uchar apicid;                // Local APIC ID

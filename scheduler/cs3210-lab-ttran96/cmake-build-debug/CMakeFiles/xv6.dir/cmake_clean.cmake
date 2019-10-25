@@ -30,7 +30,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/xv6.dir/printfmt.c.o"
   "CMakeFiles/xv6.dir/proc.c.o"
   "CMakeFiles/xv6.dir/rm.c.o"
-  "CMakeFiles/xv6.dir/scheduler.c.o"
+  "CMakeFiles/xv6.dir/schedtest.c.o"
   "CMakeFiles/xv6.dir/sh.c.o"
   "CMakeFiles/xv6.dir/sleeplock.c.o"
   "CMakeFiles/xv6.dir/spinlock.c.o"
@@ -47,8 +47,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/xv6.dir/vm.c.o"
   "CMakeFiles/xv6.dir/wc.c.o"
   "CMakeFiles/xv6.dir/zombie.c.o"
-  "xv6"
   "xv6.pdb"
+  "xv6"
 )
 
 # Per-language clean rules from dependency scanning.

@@ -23,7 +23,7 @@ int getpid(void);
 char* sbrk(int);
 int sleep(int);
 int uptime(void);
-int setscheduler(int);
+int setscheduler(int, int);
 
 // ulib.c
 int stat(char*, struct stat*);

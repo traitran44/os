@@ -12,16 +12,12 @@ struct {
     struct proc proc[NPROC];
 } ptable;
 
-int has_run_proc[NPROC];
-
 static struct proc *initproc;
 
-struct node_t *head;
-struct node_t *tail;
+int queue_size = 0;
+node_t *proc_queue;
 
 int nextpid = 1;
-
-extern int proc_glob;
 
 extern void forkret(void);
 
@@ -342,6 +338,7 @@ sched_fifo(struct cpu *c) {
 //      via swtch back to the scheduler.
 void
 scheduler(void) {
+    struct proc *p = 0;
     struct cpu *c = mycpu();
     c->proc = 0;
 
@@ -353,9 +350,21 @@ scheduler(void) {
         acquire(&ptable.lock);
         if (fifoProc()) {
             cprintf("FIFO Proc\n");
-            sched_fifo(c);
+            node_t *curr_proc = remove_proc_q();
+            for (int i = 0; i < NPROC; i++) {
+                if (ptable.proc[i].pid == curr_proc->pid) {
+                    p = &ptable.proc[i];
+                }
+            }
+            if (p->state != RUNNABLE)
+                continue;
+            c->proc = p;
+            switchuvm(p);
+            p->state = RUNNING;
+            swtch(&(c->scheduler), p->context);
+            switchkvm();
+            c->proc = 0;
         } else {
-            struct proc *p;
             for (int i = 0; i < NPROC; i++) {
                 p = ptable.proc + i;
                 if (p->state != RUNNABLE)
@@ -553,3 +562,51 @@ procdump(void) {
     }
 }
 
+node_t *
+remove_proc_q() {
+    node_t *first = 0;
+    if (queue_size > 0) {
+        first = proc_queue;
+        // Shift all element left by 1
+        for (int i = 1; i < queue_size; i++) {
+            proc_queue[i - 1] = proc_queue[i];
+        }
+        queue_size--;
+    }
+    return first;
+}
+
+int
+insert_proc_q(int priority, int pid) {
+    if (queue_size < NPROC) {
+        node_t *last = proc_queue + queue_size++;
+        last->priority = priority;
+        last->pid = pid;
+    }
+    return 0;
+}
+
+int
+sys_setscheduler(void) {
+    int policy;
+    int priority = 0;
+    int pid;
+    if (argint(0, &policy) < 0 || argint(1, &priority) < 0 || argint(2, &pid) < 0)
+        return -1;
+
+    myproc()->sched_policy = policy;
+    acquire(&ptable.lock);
+    if (policy == SCHED_FIFO) {
+        if (!proc_queue) { // empty list
+            proc_queue = (struct node_t *) kalloc();
+        }
+        insert_proc_q(priority, pid);
+        yield();
+    } else if (policy == SCHED_RR) {
+    }
+    release(&ptable.lock);
+
+    cprintf("sys_setscheduler(%d, %d, %d)\n", policy, priority, pid);
+
+    return 0;
+}
