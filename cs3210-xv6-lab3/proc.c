@@ -193,6 +193,7 @@ exit(void) {
     end_op();
     proc->cwd = 0;
 
+    cprintf("Exitting PID: %d\n", proc->pid);
     acquire(&ptable.lock);
 
     // Parent might be sleeping in wait().
@@ -464,14 +465,13 @@ procdump(void) {
 
 int
 clone_thread(void *stack, int size) {
-
     int i, pid;
     struct proc *np;
 
     acquire(&ptable.lock);
 
     // Allocate process.
-    if ((np = allocthread(stack)) == 0) {
+    if ((np = allocthread(stack, size)) == 0) {
         release(&ptable.lock);
         return -1;
     }
@@ -479,19 +479,16 @@ clone_thread(void *stack, int size) {
     np->pgdir = proc->pgdir;
     np->sz = proc->sz;
     np->parent = proc->parent;
-
     // Clear %eax so that fork returns 0 in the child.
     np->tf->eax = 0;
 
     for (i = 0; i < NOFILE; i++)
         if (proc->ofile[i])
             np->ofile[i] = proc->ofile[i];
+
     np->cwd = proc->cwd;
-
     safestrcpy(np->name, proc->name, sizeof(proc->name));
-
     pid = np->pid;
-
     np->state = RUNNABLE;
 
     release(&ptable.lock);
@@ -517,8 +514,9 @@ sys_clone(void) {
 
 
 struct proc *
-allocthread(void *stack) {
+allocthread(void *stack, int size) {
     struct proc *p;
+    char *sp;
 
     for (p = ptable.proc; p < &ptable.proc[NPROC]; p++)
         if (p->state == UNUSED)
@@ -528,13 +526,49 @@ allocthread(void *stack) {
     found:
     p->state = EMBRYO;
     p->pid = nextpid++;
-    p->kstack = proc->kstack;
+    cprintf("Parent proc %d created New thread. PID: %d\n", proc->pid, p->pid);
 
-    memmove(p->tf, proc->tf, sizeof(struct trapframe));
-    memmove(p->context, proc->context, sizeof(struct context));
+//    p->kstack = proc->kstack;
+//
+//    char tf_mem[sizeof(struct trapframe)];
+//    char cntxt_mem[sizeof(struct context)];
+//
+//    p->tf = (struct trapframe *) tf_mem;
+//    p->context = (struct context *) cntxt_mem;
+//    *p->tf = *proc->tf;
+//    memset(p->context, 0, sizeof(struct context));
+//
+//    p->tf->esp = (uint)stack;
+//    p->context->ebp = (uint)stack;
 
-    p->tf->esp = (uint)stack;
+    //--------------------
+    // Allocate kernel stack.
+    p->kstack = stack;
+    sp = p->kstack + size;
+
+    // Leave room for trap frame.
+    sp -= sizeof *p->tf;
+    p->tf = (struct trapframe *) sp;
+
+    // Set up new context to start executing at forkret,
+    // which returns to trapret.
+    sp -= 4;
+    *(uint *) sp = (uint) trapret;
+
+    sp -= sizeof *p->context;
+
+    p->parent = proc;
+    p->context = (struct context *) sp;
+    memset(p->context, 0, sizeof *p->context);
+    p->tf->esp = (uint) (stack + size);
     p->context->ebp = (uint)stack;
 
+
+//    p->context = (struct context *) sp;
+//    memset(p->context, 0, sizeof *p->context);
+//    p->context->ebp = (uint) stack;
+//    p->tf->esp = (uint) sp;
+//    p->context->eip = (uint) stack;
+//    cprintf("Func addre in alloc thread %x\n", (uint) *(uint*)stack);
     return p;
 }
