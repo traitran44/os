@@ -3,10 +3,6 @@
 #include "user.h"
 #include "sched.h"
 
-//int sched_test1(int num_proc, int parent_po, int child_po, int parent_pri, int child_pri, int loop_count);
-//int sched_test2(int num_proc, int parent_po, int child_po, int parent_pri, int child_pri, int loop_count);
-//int sched_test3(int num_proc, int parent_po, int child_po, int parent_pri, int child_pri, int loop_count);
-//
 int
 sched_test1(int num_proc, int parent_po, int child_po, int parent_pri, int child_pri, int loop_count) {
     setscheduler(-1, parent_po, parent_pri);
@@ -98,10 +94,12 @@ sched_test4(int num_proc, int parent_po, int parent_pri, int loop_count) {
             printf(1, "Created %d\n", pid);
         } else if (pid == 0) {
             int k = 0;
+            printf(1, "%d, ", k);
             for (int j = 0; j < loop_count; j++) {
                 k += 1;
-                k *= 0.9;
+                printf(1, "%d, ", k);
             }
+            printf(1, "\n");
             exit();
         }
     }
@@ -122,8 +120,8 @@ main(int argc, char *argv[]) {
 //    sched_test1(5, SCHED_RR, SCHED_RR, 0, 0, 2000);
 //    printf(1, "Create all child, and then execute child\n");
 //    sched_test1(5, SCHED_RR, SCHED_RR, 99, 0, 2000);
-    printf(1, "Create child, execute til DONE, then create next child\n");
-    sched_test1(5, SCHED_RR, SCHED_FIFO, 0, 0, 2000);
+//    printf(1, "Create child, execute til DONE, then create next child\n");
+//    sched_test1(5, SCHED_RR, SCHED_FIFO, 0, 0, 2000);
 //    printf(1, "Create all child, execute child in RR\n");
 //    sched_test1(5, SCHED_FIFO, SCHED_RR, 0, 0, 4000000000);
 //    printf(1, "Creaate all child, execute child in FIFO\n");
@@ -142,7 +140,7 @@ main(int argc, char *argv[]) {
 //    sched_test3(4, SCHED_RR, SCHED_RR, 99, 10);  // create all child processes, then execute in priority
 
 //    sched_test4(10, SCHED_FIFO, 99, 2000);
-//    sched_test4(10, SCHED_RR, 99, 2000);
+    sched_test4(10, SCHED_RR, 99, 100);
 
     exit();
 }
