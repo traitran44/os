@@ -101,13 +101,8 @@ trap(struct trapframe *tf) {
     // If interrupts were on while locks held, would need to check nlock.
     if (myproc() && myproc()->state == RUNNING &&
         tf->trapno == T_IRQ0 + IRQ_TIMER) {
-        if (myproc()->sched_policy == SCHED_FIFO){
-            cprintf("FIFO proc is running in trap. PID: %d\n", myproc()->pid);
-        }
-        if (myproc()->sched_policy == SCHED_RR) {
-            cprintf("RR proc is running in trap. PID: %d\n", myproc()->pid);
-            yield();
-        }
+
+        yield();
     }
 
     // Check if the process has been killed since we yielded

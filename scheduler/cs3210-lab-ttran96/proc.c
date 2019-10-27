@@ -11,8 +11,9 @@
 struct {
     struct spinlock lock;
     struct proc proc[NPROC];
-    node_t proc_queue[NPROC];
     int queue_size;
+    struct proc *head;
+    struct proc *tail;
 } ptable;
 
 static struct proc *initproc;
@@ -90,6 +91,7 @@ allocproc(void) {
 
     found:
     p->state = EMBRYO;
+    p->RR_index = 0;
     p->pid = nextpid++;
 
     release(&ptable.lock);
@@ -183,7 +185,6 @@ fork(void) {
     int i, pid;
     struct proc *np;
     struct proc *curproc = myproc();
-    cprintf("Parent proc: %d\n", curproc->pid);
 
     // Allocate process.
     if ((np = allocproc()) == 0) {
@@ -247,7 +248,6 @@ exit(void) {
     end_op();
     curproc->cwd = 0;
 
-    cprintf("Exit acquire lock. PID: %d\n", myproc()->pid);
     acquire(&ptable.lock);
 
     // Parent might be sleeping in wait().
@@ -309,19 +309,12 @@ wait(void) {
         // Wait for children to exit.  (See wakeup1 call in proc_exit.)
         sleep(curproc, &ptable.lock);  //DOC: wait-sleep
     }
+
 }
 
 int
 fifoProc() {
     return ptable.queue_size;
-}
-
-void
-sched_rr(struct cpu *c) {
-}
-
-void
-sched_fifo(struct cpu *c) {
 }
 
 //PAGEBREAK: 42
@@ -341,58 +334,43 @@ scheduler(void) {
     for (;;) {
         // Enable interrupts on this processor.
         sti();
-
         // Loop over process table looking for process to run.
-
         acquire(&ptable.lock);
-        int fifo_procs = fifoProc();
-        if (fifo_procs) {
-
-            cprintf("Proc Queue: ");
-            for (int k = 0; k < NPROC; k++) {
-                cprintf("%d, ", ptable.proc_queue[k]);
-            }
-            cprintf("\n");
-
-            int curr_node = first_proc_q();
-            for (int i = 0; i < NPROC; i++) {
-                if (ptable.proc[i].pid == curr_node) {
-                    p = &ptable.proc[i];
-                }
-            }
+        if (fifoProc() > 0) {
+            p = fifo_q();
             if (p->state != RUNNABLE)
                 continue;
             c->proc = p;
             switchuvm(p);
             p->state = RUNNING;
-            cprintf("switch to FIFO Proc. PID: %d\n", p->pid);
             swtch(&(c->scheduler), p->context);
             switchkvm();
 
-            remove_proc_q();
-
+            if (p->state == ZOMBIE) {
+                remove_proc_q(p->pid);
+            }
             c->proc = 0;
         } else {
             for (int i = 0; i < NPROC; i++) {
-                p = ptable.proc + i;
-                if (p->state != RUNNABLE)
+                p = &ptable.proc[i];
+                if (p->state != RUNNABLE) {
                     continue;
-
-                for (int j = 0; j < NPROC; j++) {
-                    if (ptable.proc[j].pid > 2 && (ptable.proc[j].state == RUNNABLE || ptable.proc[j].state == RUNNING))
-                        cprintf("%d, ", ptable.proc[j].pid);
                 }
-                cprintf("\n");
 
+                struct proc *best_proc = p;
+                for (int j = 0; j < NPROC; j++) {
+                    p = &ptable.proc[j];
+                    if (p->state == RUNNABLE && p->priority > best_proc->priority)
+                        best_proc = p;
+                }
+                p = best_proc;
 
                 // Switch to chosen process.  It is the process's job
                 // to release ptable.lock and then reacquire it
                 // before jumping back to us.
                 c->proc = p;
-                cprintf("Switch to RR proc. PID: %d\n", p->pid);
                 switchuvm(p);
                 p->state = RUNNING;
-
                 swtch(&(c->scheduler), p->context);
                 switchkvm();
                 // Process is done running for now.
@@ -486,6 +464,8 @@ sleep(void *chan, struct spinlock *lk) {
     // Go to sleep.
     p->chan = chan;
     p->state = SLEEPING;
+    if (p->policy == SCHED_FIFO)
+        ptable.queue_size--;
 
     sched();
 
@@ -507,8 +487,11 @@ wakeup1(void *chan) {
     struct proc *p;
 
     for (p = ptable.proc; p < &ptable.proc[NPROC]; p++)
-        if (p->state == SLEEPING && p->chan == chan)
+        if (p->state == SLEEPING && p->chan == chan) {
             p->state = RUNNABLE;
+            if (p->policy == SCHED_FIFO)
+                ptable.queue_size++;
+        }
 }
 
 // Wake up all processes sleeping on chan.
@@ -577,52 +560,102 @@ procdump(void) {
     }
 }
 
-int
-first_proc_q(void) {
-    return ptable.proc_queue->pid;
-}
+struct proc *
+fifo_q(void) {
+    struct proc *curr_node = ptable.head;
+    struct proc *best_proc = ptable.head;
 
-int
-remove_proc_q(void) {
-    int first = 0;
-    if (ptable.queue_size > 0) {
-        first = ptable.proc_queue->pid;
-        // Shift all element left by 1
-        for (int i = 1; i < ptable.queue_size; i++) {
-            ptable.proc_queue[i - 1] = ptable.proc_queue[i];
+    while (curr_node) {
+        if (curr_node->state == SLEEPING || curr_node->state == ZOMBIE) {
+            if (curr_node->next)
+                best_proc = curr_node->next;
+            curr_node = curr_node->next;
+        } else {
+            if (curr_node->priority > best_proc->priority) {
+                best_proc = curr_node;
+            }
         }
-        ptable.queue_size--;
+        curr_node = curr_node->next;
     }
-    return first;
+    return best_proc;
 }
 
 int
-insert_proc_q(int priority, int pid) {
+remove_proc_q(int pid) {
+    if (ptable.queue_size > 0) {
+        if (ptable.head->pid == pid) {
+            ptable.head = ptable.head->next;
+        } else {
+            struct proc *curr_node = ptable.head;
+            while (curr_node) {
+                if (curr_node->pid == pid) {
+                    curr_node->prev->next = curr_node->next;
+                    curr_node->next->prev = curr_node->prev;
+                    goto done;
+                }
+            }
+            return -1;
+        }
+    }
+
+    done:
+    ptable.queue_size -= 1;
+    return pid;
+}
+
+int
+insert_proc_q(int priority, int pid, int policy) {
+    int valid = -1;
     acquire(&ptable.lock);
     if (ptable.queue_size < NPROC) {
-        node_t *last = ptable.proc_queue + ptable.queue_size++;
-        last->priority = priority;
-        last->pid = pid;
-        cprintf("Insert proc to fifo. Queue Size: %d\n", ptable.queue_size);
+        for (int i = 0; i < 30; i++) {
+            if (ptable.proc[i].pid == pid) {
+                ptable.proc[i].priority = priority;
+                ptable.proc[i].policy = policy;
+
+                if (!ptable.head) {
+                    ptable.head = &ptable.proc[i];
+                    ptable.tail = &ptable.proc[i];
+                } else {
+                    ptable.tail->next = &ptable.proc[i];
+                    ptable.proc[i].prev = ptable.tail;
+                    ptable.tail = &ptable.proc[i];
+                }
+
+                ptable.queue_size++;
+                valid = 0;
+                break;
+            }
+        }
     }
     release(&ptable.lock);
-    return 0;
+    return valid;
 }
 
 int
 sys_setscheduler(void) {
+    int pid;
     int policy;
-    int priority = 0;
-    if (argint(0, &policy) < 0 || argint(1, &priority) < 0)
+    int priority;
+    if (argint(0, &pid) < 0 || argint(1, &policy) < 0 || argint(2, &priority) < 0)
         return -1;
 
-    myproc()->sched_policy = policy;
-    cprintf("sys_setscheduler(%d, %d). PID: %d\n", policy, priority, myproc()->pid);
+    if (pid == 0)
+        return 0;
     if (policy == SCHED_FIFO) {
-        insert_proc_q(priority, myproc()->pid);
-        yield();
+        if (pid < 0)
+            pid = myproc()->pid;
+        if (insert_proc_q(priority, pid, policy) != 0)
+            panic("Couldn't add proc to queue");
     } else if (policy == SCHED_RR) {
+        for (int i = 0; i < NPROC; i++) {
+            if (ptable.proc[i].pid == pid) {
+                ptable.proc[i].priority = priority;
+                break;
+            }
+        }
     }
 
+    yield();
     return 0;
 }

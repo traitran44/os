@@ -1,15 +1,10 @@
-typedef struct node_t {
-    int pid;
-    int priority;
-} node_t;
-
-int remove_proc_q(void);
+int remove_proc_q(int pid);
 
 int
-insert_proc_q(int priority, int pid);
+insert_proc_q(int priority, int pid, int policy);
 
-int
-first_proc_q(void);
+struct proc*
+fifo_q(void);
 
 // Per-CPU state
 struct cpu {
@@ -66,7 +61,11 @@ struct proc {
     struct file *ofile[NOFILE];  // Open files
     struct inode *cwd;           // Current directory
     char name[16];               // Process name (debugging)
-    int sched_policy;
+    int policy;
+    int priority;
+    struct proc *next;
+    struct proc *prev;
+    int RR_index;
 };
 
 // Process memory is laid out contiguously, low addresses first:
