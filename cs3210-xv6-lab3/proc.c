@@ -193,6 +193,7 @@ exit(void) {
     end_op();
     proc->cwd = 0;
 
+    cprintf("Exitting PID: %d\n", proc->pid);
     acquire(&ptable.lock);
 
     // Parent might be sleeping in wait().
@@ -464,39 +465,97 @@ procdump(void) {
 
 int
 clone_thread(void *stack, int size) {
-
     int i, pid;
     struct proc *np;
 
-    acquire(&ptable.lock);
 
+    acquire(&ptable.lock);
     // Allocate process.
-    if ((np = allocthread(stack)) == 0) {
-        release(&ptable.lock);
+    if ((np = allocproc()) == 0)
         return -1;
-    }
 
     np->pgdir = proc->pgdir;
+
+//    int user_stack[3];
+    uint sp = (uint) (stack + size);
+
+//    user_stack[0] = 0xffffffff;
+//    user_stack[1] = (uint)arg1;
+//    user_stack[2] = (uint)arg2;
+
+    sp -= 12;
+
     np->sz = proc->sz;
-    np->parent = proc->parent;
+    np->parent = proc;
+    *np->tf = *proc->tf;
 
     // Clear %eax so that fork returns 0 in the child.
     np->tf->eax = 0;
+    np->tf->esp = (uint) sp;
+    np->tf->eip = (uint) (*(uint *) stack);
+    np->tf->ebp = (uint) (stack + size);
+    cprintf("PID: %d. EIP: %d\n", np->pid, np->tf->eip);
 
     for (i = 0; i < NOFILE; i++)
         if (proc->ofile[i])
-            np->ofile[i] = proc->ofile[i];
-    np->cwd = proc->cwd;
-
-    safestrcpy(np->name, proc->name, sizeof(proc->name));
+            np->ofile[i] = filedup(proc->ofile[i]);
+    np->cwd = idup(proc->cwd);
 
     pid = np->pid;
-
     np->state = RUNNABLE;
+    safestrcpy(np->name, proc->name, sizeof(proc->name));
+    proc->thread_count++;
+    np->thread_count = proc->thread_count;
 
     release(&ptable.lock);
-
     return pid;
+}
+
+int
+sys_cpu(void) {
+    return cpunum();
+}
+
+int
+sys_join(void) {
+    struct proc *p;
+    int havekids, pid;
+
+    acquire(&ptable.lock);
+    for (;;) {
+        // Scan through table looking for zombie children.
+        havekids = 0;
+        for (p = ptable.proc; p < &ptable.proc[NPROC]; p++) {
+            if (p->parent != proc || p->pgdir != proc->pgdir)
+                continue;
+            havekids = 1;
+            if (p->state != ZOMBIE)
+                continue;
+            if (p->state == ZOMBIE) {
+                // Found one.
+                proc->thread_count--;
+                pid = p->pid;
+                kfree(p->kstack);
+                p->state = UNUSED;
+                p->kstack = 0;
+                p->parent = 0;
+                p->pid = 0;
+                p->killed = 0;
+                p->name[0] = 0;
+                release(&ptable.lock);
+                return pid;
+            }
+        }
+
+        // No point waiting if we don't have any children.
+        if (!havekids || proc->killed) {
+            release(&ptable.lock);
+            return -1;
+        }
+
+        // Wait for children to exit.  (See wakeup1 call in proc_exit.)
+        sleep(proc, &ptable.lock);  //DOC: wait-sleep
+    }
 }
 
 
@@ -509,32 +568,7 @@ sys_clone(void) {
         return -1;
     if (argptr(0, &stack, size) < 0)
         return -1;
-    cprintf("Stack: %d\n", stack);
-    cprintf("Size: %d\n", size);
 
-    return clone_thread((void *)stack, size);
+    return clone_thread((void *) stack, size);
 }
 
-
-struct proc *
-allocthread(void *stack) {
-    struct proc *p;
-
-    for (p = ptable.proc; p < &ptable.proc[NPROC]; p++)
-        if (p->state == UNUSED)
-            goto found;
-    return 0;
-
-    found:
-    p->state = EMBRYO;
-    p->pid = nextpid++;
-    p->kstack = proc->kstack;
-
-    memmove(p->tf, proc->tf, sizeof(struct trapframe));
-    memmove(p->context, proc->context, sizeof(struct context));
-
-    p->tf->esp = (uint)stack;
-    p->context->ebp = (uint)stack;
-
-    return p;
-}
