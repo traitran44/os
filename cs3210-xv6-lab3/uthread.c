@@ -73,21 +73,6 @@ thread_create(void (*func)()) {
     clone((void *) stack, STACK_SIZE);
 }
 
-//void
-//thread_create(void (*func)())
-//{
-//  thread_p t;
-//
-//  for (t = all_thread; t < all_thread + MAX_THREAD; t++) {
-//    if (t->state == FREE) break;
-//  }
-//  t->sp = (int) (t->stack + STACK_SIZE);   // set sp to the top of the stack
-//  t->sp -= 4;                              // space for return address
-//  * (int *) (t->sp) = (int)func;           // push return address on stack
-//  t->sp -= 32;                             // space for registers that thread_switch expects
-//  t->state = RUNNABLE;
-//}
-
 void
 thread_yield(void) {
     current_thread->state = RUNNABLE;
@@ -97,50 +82,39 @@ thread_yield(void) {
 static void
 thread1(void) {
     int i;
-    printf(1, "my thread running\n");
+    printf(1, "CPU: %d. my thread running\n", cpu());
     for (i = 0; i < 25; i++) {
         printf(1, "my thread 0x%x\n", (int) current_thread);
-//    thread_yield();
     }
     printf(1, "my thread: exit\n");
     exit();
-//  current_thread->state = FREE;
-//  thread_schedule();
 }
 
 static void
 blockthread(void) {
-    printf(1, "Block thread\n");
-    sleep(20);
+    while(1) {}
     exit();
-//    thread_yield();
-//    current_thread->state = FREE;
-//    thread_schedule();
 }
 
 static void
 thread2(void) {
-    int i;
-    printf(1, "my thread running\n");
-    for (i = 0; i < 50; i++) {
-        printf(1, "After block, my thread 0x%x\n", (int) current_thread);
-//        thread_yield();
-    }
+//    int i;
+    printf(1, "CPU: %d. my thread running\n", cpu());
+//    for (i = 0; i < 50; i++) {
+//        printf(1, "After block, my thread 0x%x\n", (int) current_thread);
+//    }
     printf(1, "my thread: exit\n");
     exit();
-//    current_thread->state = FREE;
-//    thread_schedule();
 }
 
 
 int
 main(int argc, char *argv[]) {
-//  thread_init();
     thread_create(thread1);
     thread_create(blockthread);
     thread_create(thread2);
-    for (int i = 0; i < 3; i++)
-        wait();
-//  thread_schedule();
+    for (int i = 0; i < 3; i++) {
+        printf(1, "%Finished: join(%d) \n", join());
+    }
     exit();
 }
