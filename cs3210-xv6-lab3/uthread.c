@@ -90,11 +90,11 @@ thread1(void) {
     exit();
 }
 
-static void
-blockthread(void) {
-    while(1) {}
-    exit();
-}
+//static void
+//blockthread(void) {
+//    while(1) {}
+//    exit();
+//}
 
 static void
 thread2(void) {
@@ -111,7 +111,7 @@ thread2(void) {
 int
 main(int argc, char *argv[]) {
     thread_create(thread1);
-    thread_create(blockthread);
+//    thread_create(blockthread);
     thread_create(thread2);
     for (int i = 0; i < 3; i++) {
         printf(1, "%Finished: join(%d) \n", join());
