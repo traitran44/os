@@ -1,10 +1,8 @@
-int remove_proc_q(int pid);
 
-int
-insert_proc_q(int priority, int pid, int policy);
+int insert_proc_q(int priority, int pid, int policy);
 
-struct proc*
-fifo_q(void);
+
+struct proc* fifo_q(void);
 
 // Per-CPU state
 struct cpu {
@@ -65,7 +63,6 @@ struct proc {
     int priority;
     struct proc *next;
     struct proc *prev;
-    int RR_index;
 };
 
 // Process memory is laid out contiguously, low addresses first:
