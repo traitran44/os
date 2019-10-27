@@ -1,8 +1,7 @@
-int remove_proc_q(int pid);
 int insert_proc_q(int priority, int pid, int policy);
 struct proc* fifo_q(void);
 struct cpu * mycpu(void);
-int fifoProc(void);
+int fifo_size(void);
 
 // Per-CPU state
 struct cpu {
