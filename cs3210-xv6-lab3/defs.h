@@ -75,6 +75,7 @@ void            kbdintr(void);
 void            cmostime(struct rtcdate *r);
 int             cpunum(void);
 extern volatile uint*    lapic;
+int             lapicid(void);
 void            lapiceoi(void);
 void            lapicinit(void);
 void            lapicstartap(uchar, uint);

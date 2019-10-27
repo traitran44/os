@@ -151,6 +151,10 @@ _uthread: uthread.o uthread_switch.o
 	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o _uthread uthread.o uthread_switch.o $(ULIB)
 	$(OBJDUMP) -S _uthread > uthread.asm
 
+_hwuthread: hwuthread.o uthread_switch.o
+	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o _hwuthread hwuthread.o uthread_switch.o $(ULIB)
+	$(OBJDUMP) -S _hwuthread > hwuthread.asm
+
 mkfs: mkfs.c fs.h
 	gcc -Werror -Wall -o mkfs mkfs.c
 
@@ -177,6 +181,8 @@ UPROGS=\
 	_wc\
 	_zombie\
 	_uthread\
+	_schedtest\
+	_hwuthread\
 
 fs.img: mkfs README $(UPROGS)
 	./mkfs fs.img README $(UPROGS)

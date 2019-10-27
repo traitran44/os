@@ -10,6 +10,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/xv6.dir/forktest.c.o"
   "CMakeFiles/xv6.dir/fs.c.o"
   "CMakeFiles/xv6.dir/grep.c.o"
+  "CMakeFiles/xv6.dir/hwuthread.c.o"
   "CMakeFiles/xv6.dir/ide.c.o"
   "CMakeFiles/xv6.dir/init.c.o"
   "CMakeFiles/xv6.dir/ioapic.c.o"
@@ -30,6 +31,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/xv6.dir/printf.c.o"
   "CMakeFiles/xv6.dir/proc.c.o"
   "CMakeFiles/xv6.dir/rm.c.o"
+  "CMakeFiles/xv6.dir/schedtest.c.o"
   "CMakeFiles/xv6.dir/sh.c.o"
   "CMakeFiles/xv6.dir/spinlock.c.o"
   "CMakeFiles/xv6.dir/stressfs.c.o"
@@ -47,8 +49,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/xv6.dir/vm.c.o"
   "CMakeFiles/xv6.dir/wc.c.o"
   "CMakeFiles/xv6.dir/zombie.c.o"
-  "xv6"
   "xv6.pdb"
+  "xv6"
 )
 
 # Per-language clean rules from dependency scanning.

@@ -99,6 +99,14 @@ lapicinit(void)
 }
 
 int
+lapicid(void)
+{
+  if (!lapic)
+    return 0;
+  return lapic[ID] >> 24;
+}
+
+int
 cpunum(void)
 {
   int apicid, i;

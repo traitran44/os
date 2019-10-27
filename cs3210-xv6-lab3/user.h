@@ -26,6 +26,7 @@ int uptime(void);
 int clone(void*, int);
 int join(void);
 int cpu(void);
+int setscheduler(int, int, int);
 
 // ulib.c
 int stat(char*, struct stat*);

@@ -6,10 +6,14 @@
 #include "x86.h"
 #include "proc.h"
 #include "spinlock.h"
+#include "sched.h"
 
 struct {
     struct spinlock lock;
     struct proc proc[NPROC];
+    int queue_size;
+    struct proc *head;
+    struct proc *tail;
 } ptable;
 
 static struct proc *initproc;
@@ -266,34 +270,67 @@ wait(void) {
 //      via swtch back to the scheduler.
 void
 scheduler(void) {
-    struct proc *p;
+    struct proc *p = 0;
+    struct cpu *c = mycpu();
+    c->proc = 0;
 
     for (;;) {
         // Enable interrupts on this processor.
         sti();
-
         // Loop over process table looking for process to run.
         acquire(&ptable.lock);
-        for (p = ptable.proc; p < &ptable.proc[NPROC]; p++) {
+        if (fifoProc() > 0) {
+            p = fifo_q();
             if (p->state != RUNNABLE)
                 continue;
-
-            // Switch to chosen process.  It is the process's job
-            // to release ptable.lock and then reacquire it
-            // before jumping back to us.
-            proc = p;
+            c->proc = p;
             switchuvm(p);
             p->state = RUNNING;
-            swtch(&cpu->scheduler, p->context);
+            swtch(&(c->scheduler), p->context);
             switchkvm();
 
-            // Process is done running for now.
-            // It should have changed its p->state before coming back.
-            proc = 0;
+            if (p->state == ZOMBIE) {
+                remove_proc_q(p->pid);
+            }
+            c->proc = 0;
+        } else {
+            for (int i = 0; i < NPROC; i++) {
+                p = &ptable.proc[i];
+                if (p->state != RUNNABLE) {
+                    continue;
+                }
+
+                struct proc *best_proc = p;
+                for (int j = 0; j < NPROC; j++) {
+                    p = &ptable.proc[j];
+                    if (p->state == RUNNABLE && p->priority > best_proc->priority)
+                        best_proc = p;
+                }
+                p = best_proc;
+
+                // Switch to chosen process.  It is the process's job
+                // to release ptable.lock and then reacquire it
+                // before jumping back to us.
+                c->proc = p;
+                switchuvm(p);
+                p->state = RUNNING;
+                swtch(&(c->scheduler), p->context);
+                switchkvm();
+                // Process is done running for now.
+                // It should have changed its p->state before coming back.
+                c->proc = 0;
+                if (fifoProc()) {
+                    break;
+                }
+            }
         }
         release(&ptable.lock);
-
     }
+}
+
+int
+fifoProc() {
+    return ptable.queue_size;
 }
 
 // Enter scheduler.  Must hold only ptable.lock
@@ -349,11 +386,41 @@ forkret(void) {
     // Return to "caller", actually trapret (see allocproc).
 }
 
+
+struct cpu *
+mycpu(void) {
+    int apicid, i;
+
+    if (readeflags() & FL_IF)
+        panic("mycpu called with interrupts enabled\n");
+
+    apicid = lapicid();
+    // APIC IDs are not guaranteed to be contiguous. Maybe we should have
+    // a reverse map, or reserve a register to store &cpus[i].
+    for (i = 0; i < ncpu; ++i) {
+        if (cpus[i].apicid == apicid)
+            return &cpus[i];
+    }
+    panic("unknown apicid\n");
+}
+
+struct proc *
+myproc(void) {
+    struct cpu *c;
+    struct proc *p;
+    pushcli();
+    c = mycpu();
+    p = c->proc;
+    popcli();
+    return p;
+}
+
 // Atomically release lock and sleep on chan.
 // Reacquires lock when awakened.
 void
 sleep(void *chan, struct spinlock *lk) {
-    if (proc == 0)
+    struct proc *p = myproc();
+    if (p == 0)
         panic("sleep");
 
     if (lk == 0)
@@ -371,12 +438,15 @@ sleep(void *chan, struct spinlock *lk) {
     }
 
     // Go to sleep.
-    proc->chan = chan;
-    proc->state = SLEEPING;
+    p->chan = chan;
+    p->state = SLEEPING;
+    if (p->policy == SCHED_FIFO) {
+        ptable.queue_size--;
+    }
     sched();
 
     // Tidy up.
-    proc->chan = 0;
+    p->chan = 0;
 
     // Reacquire original lock.
     if (lk != &ptable.lock) {  //DOC: sleeplock2
@@ -467,35 +537,22 @@ int
 clone_thread(void *stack, int size) {
     int i, pid;
     struct proc *np;
-
-
     acquire(&ptable.lock);
-    // Allocate process.
     if ((np = allocproc()) == 0)
         return -1;
 
     np->pgdir = proc->pgdir;
-
-//    int user_stack[3];
     uint sp = (uint) (stack + size);
-
-//    user_stack[0] = 0xffffffff;
-//    user_stack[1] = (uint)arg1;
-//    user_stack[2] = (uint)arg2;
-
-    sp -= 12;
+    sp -= 8;
 
     np->sz = proc->sz;
     np->parent = proc;
     *np->tf = *proc->tf;
 
-    // Clear %eax so that fork returns 0 in the child.
     np->tf->eax = 0;
     np->tf->esp = (uint) sp;
     np->tf->eip = (uint) (*(uint *) stack);
     np->tf->ebp = (uint) (stack + size);
-    cprintf("PID: %d. EIP: %d\n", np->pid, np->tf->eip);
-
     for (i = 0; i < NOFILE; i++)
         if (proc->ofile[i])
             np->ofile[i] = filedup(proc->ofile[i]);
@@ -572,3 +629,102 @@ sys_clone(void) {
     return clone_thread((void *) stack, size);
 }
 
+struct proc *
+fifo_q(void) {
+    struct proc *curr_node = ptable.head;
+    struct proc *best_proc = ptable.head;
+
+    while (curr_node) {
+        if (curr_node->state == SLEEPING || curr_node->state == ZOMBIE) {
+            if (curr_node->next)
+                best_proc = curr_node->next;
+            curr_node = curr_node->next;
+        } else {
+            if (curr_node->priority > best_proc->priority) {
+                best_proc = curr_node;
+            }
+        }
+        curr_node = curr_node->next;
+    }
+    return best_proc;
+}
+
+int
+remove_proc_q(int pid) {
+    if (ptable.queue_size > 0) {
+        if (ptable.head->pid == pid) {
+            ptable.head = ptable.head->next;
+        } else {
+            struct proc *curr_node = ptable.head;
+            while (curr_node) {
+                if (curr_node->pid == pid) {
+                    curr_node->prev->next = curr_node->next;
+                    curr_node->next->prev = curr_node->prev;
+                    goto done;
+                }
+            }
+            return -1;
+        }
+    }
+
+    done:
+    ptable.queue_size -= 1;
+    return pid;
+}
+
+int
+insert_proc_q(int priority, int pid, int policy) {
+    int valid = -1;
+    acquire(&ptable.lock);
+    if (ptable.queue_size < NPROC) {
+        for (int i = 0; i < 30; i++) {
+            if (ptable.proc[i].pid == pid) {
+                ptable.proc[i].priority = priority;
+                ptable.proc[i].policy = policy;
+
+                if (!ptable.head) {
+                    ptable.head = &ptable.proc[i];
+                    ptable.tail = &ptable.proc[i];
+                } else {
+                    ptable.tail->next = &ptable.proc[i];
+                    ptable.proc[i].prev = ptable.tail;
+                    ptable.tail = &ptable.proc[i];
+                }
+
+                ptable.queue_size++;
+                valid = 0;
+                break;
+            }
+        }
+    }
+    release(&ptable.lock);
+    return valid;
+}
+
+int
+sys_setscheduler(void) {
+    int pid;
+    int policy;
+    int priority;
+    if (argint(0, &pid) < 0 || argint(1, &policy) < 0 || argint(2, &priority) < 0)
+        return -1;
+
+    if (pid == 0)
+        return 0;
+    if (policy == SCHED_FIFO) {
+        if (pid < 0)
+            pid = myproc()->pid;
+        if (insert_proc_q(priority, pid, policy) != 0)
+            panic("Couldn't add proc to queue");
+    } else if (policy == SCHED_RR) {
+        for (int i = 0; i < NPROC; i++) {
+            if (ptable.proc[i].pid == pid) {
+                ptable.proc[i].priority = priority;
+                break;
+            }
+        }
+    }
+
+    yield();
+    return 0;
+}

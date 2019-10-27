@@ -1,4 +1,4 @@
-# Install script for directory: /home/mai/trai_os/os/cs3210-xv6-lab3
+# Install script for directory: /home/trai/Desktop/os/cs3210-xv6-lab3
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/mai/trai_os/os/cs3210-xv6-lab3/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/trai/Desktop/os/cs3210-xv6-lab3/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
