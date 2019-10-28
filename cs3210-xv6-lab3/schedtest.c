@@ -94,12 +94,9 @@ sched_test4(int num_proc, int parent_po, int parent_pri, int loop_count) {
             printf(1, "Created %d\n", pid);
         } else if (pid == 0) {
             int k = 0;
-            printf(1, "%d, ", k);
             for (int j = 0; j < loop_count; j++) {
                 k += 1;
-                printf(1, "%d, ", k);
             }
-            printf(1, "\n");
             exit();
         }
     }
@@ -139,8 +136,8 @@ main(int argc, char *argv[]) {
 //    sched_test3(4, SCHED_RR, SCHED_FIFO, 99, 10);  // alternate between create child, child run to finish, and create next child
 //    sched_test3(4, SCHED_RR, SCHED_RR, 99, 10);  // create all child processes, then execute in priority
 
-//    sched_test4(10, SCHED_FIFO, 99, 2000);
-    sched_test4(10, SCHED_RR, 99, 100);
+    sched_test4(10, SCHED_FIFO, 99, 50);
+//    sched_test4(10, SCHED_RR, 99, 100);
 
     exit();
 }

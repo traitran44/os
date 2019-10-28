@@ -201,7 +201,6 @@ exit(void) {
     end_op();
     proc->cwd = 0;
 
-    cprintf("Exitting PID: %d\n", proc->pid);
     acquire(&ptable.lock);
 
     // Parent might be sleeping in wait().
@@ -218,8 +217,8 @@ exit(void) {
 
     // Jump into the scheduler, never to return.
     proc->state = ZOMBIE;
-    if (p->pid > 2)
-        cprintf("exit proc %d\n", p->pid);
+    if (proc->pid > 2)
+        cprintf("exit proc %d\n", proc->pid);
 
     sched();
     panic("zombie exit");
@@ -267,6 +266,19 @@ wait(void) {
     }
 }
 
+void
+printfifo(void)
+{
+    struct proc *curr = ptable.fifo_head;
+    cprintf("fifo q: ");
+    while (curr) {
+        if (curr->state == RUNNABLE)
+            cprintf("%d, ", curr->pid);
+        curr = curr->next;
+    }
+    cprintf("\n");
+}
+
 //PAGEBREAK: 42
 // Per-CPU process scheduler.
 // Each CPU calls scheduler() after setting itself up.
@@ -300,6 +312,7 @@ scheduler(void) {
             if (p->state == ZOMBIE) {
                 remove_proc_q(p);
             }
+
             c->proc = 0;
         } else {
             for (int i = 0; i < NPROC; i++) {
@@ -470,8 +483,12 @@ wakeup1(void *chan) {
     struct proc *p;
 
     for (p = ptable.proc; p < &ptable.proc[NPROC]; p++)
-        if (p->state == SLEEPING && p->chan == chan)
+        if (p->state == SLEEPING && p->chan == chan) {
             p->state = RUNNABLE;
+            if (p->policy == SCHED_FIFO)
+                ptable.queue_size++;
+        }
+
 }
 
 // Wake up all processes sleeping on chan.
