@@ -1,6 +1,6 @@
-int insert_proc_q(int priority, int pid, int policy);
-struct proc* fifo_q(void);
+struct proc* next_proc(void);
 struct cpu * mycpu(void);
+int add_fifo_q(struct proc *p);
 int fifo_size(void);
 
 // Per-CPU state
@@ -73,7 +73,6 @@ struct proc {
     struct inode *cwd;           // Current directory
     char name[16];               // Process name (debugging)
     int thread_count;
-
     int policy;
     int priority;
     struct proc *next;

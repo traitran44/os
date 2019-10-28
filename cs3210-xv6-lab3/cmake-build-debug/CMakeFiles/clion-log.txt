@@ -1,4 +1,0 @@
-/home/trai/Downloads/clion/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/trai/Desktop/os/cs3210-xv6-lab3
--- Configuring done
--- Generating done
--- Build files have been written to: /home/trai/Desktop/os/cs3210-xv6-lab3/cmake-build-debug
