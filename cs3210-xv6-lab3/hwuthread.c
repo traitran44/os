@@ -1,3 +1,4 @@
+/// \file
 #include "types.h"
 #include "stat.h"
 #include "user.h"
@@ -102,6 +103,9 @@ mythread1(void)
   thread_schedule1();
 }
 
+/**
+ * Blocking other running threads
+ */
 static void
 blockthread1(void)
 {

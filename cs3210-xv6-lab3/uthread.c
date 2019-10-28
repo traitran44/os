@@ -1,3 +1,4 @@
+/// \file
 #include "types.h"
 #include "stat.h"
 #include "user.h"
@@ -65,6 +66,10 @@ thread_schedule(void) {
         next_thread = 0;
 }
 
+/**
+ * Create a new thread using clone system call.
+ * @param func
+ */
 void
 thread_create(void (*func)()) {
     char stack[STACK_SIZE];

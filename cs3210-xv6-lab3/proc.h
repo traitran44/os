@@ -1,3 +1,4 @@
+/// \file
 int insert_proc_q(int priority, int pid, int policy);
 struct proc* fifo_q(void);
 struct cpu * mycpu(void);
@@ -20,8 +21,6 @@ struct cpu {
 
 extern struct cpu cpus[NCPU];
 extern int ncpu;
-
-struct proc *allocthread(void *stack, int size);
 
 // Per-CPU variables, holding pointers to the
 // current cpu and to the current process.
@@ -58,6 +57,13 @@ enum procstate {
 };
 
 // Per-process state
+/**
+ * Added fields:
+ * policy: SCHED_FIFO, SCHED_RR
+ * priority: proc priority
+ * next linked to the next proc
+ * prev linked to the prev proc
+ */
 struct proc {
     uint sz;                     // Size of process memory (bytes)
     pde_t *pgdir;                // Page table

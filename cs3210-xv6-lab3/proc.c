@@ -1,3 +1,4 @@
+/// \file
 #include "types.h"
 #include "defs.h"
 #include "param.h"
@@ -275,6 +276,10 @@ wait(void) {
 //  - swtch to start running that process
 //  - eventually that process transfers control
 //      via swtch back to the scheduler.
+/**
+ * The implementation of FIFO and RR with priority is here.
+ * FIFO policy is always executed first and then RR.
+ */
 void
 scheduler(void) {
     struct proc *p = 0;
@@ -313,6 +318,7 @@ scheduler(void) {
                     if (ptable.proc[j].priority > priority && ptable.proc[j].state == RUNNABLE)
                         p = &ptable.proc[j];
                 }
+//                cprintf("Running PID: %d\n", p->pid);
 
                 // Switch to chosen process.  It is the process's job
                 // to release ptable.lock and then reacquire it
@@ -540,6 +546,12 @@ procdump(void) {
     }
 }
 
+/**
+ * Cloning thread helper function
+ * @param stack
+ * @param size
+ * @return
+ */
 int
 clone_thread(void *stack, int size) {
     int i, pid;
@@ -575,11 +587,20 @@ clone_thread(void *stack, int size) {
     return pid;
 }
 
+/**
+ * Returning the cpu number, this is a system call.
+ * @return
+ */
 int
 sys_cpu(void) {
     return cpunum();
 }
 
+/**
+ * Behave similar to wait() but for thread.
+ * Being used in uthread.c for testing purposes
+ * @return
+ */
 int
 sys_join(void) {
     struct proc *p;
@@ -623,6 +644,10 @@ sys_join(void) {
 }
 
 
+/**
+ * Cloning a thread given the stack and size.
+ * @return
+ */
 int
 sys_clone(void) {
     char *stack;
@@ -636,6 +661,10 @@ sys_clone(void) {
     return clone_thread((void *) stack, size);
 }
 
+/**
+ * Return the highest priority element without removing
+ * @return
+ */
 struct proc *
 fifo_q(void) {
     struct proc *curr_node = ptable.fifo_head;
@@ -656,6 +685,11 @@ fifo_q(void) {
     return best_proc;
 }
 
+/**
+ * Remove the process in queue with highest priority or most recent
+ * @param proc
+ * @return
+ */
 int
 remove_proc_q(struct proc *proc) {
     if (ptable.queue_size > 0) {
@@ -676,6 +710,13 @@ remove_proc_q(struct proc *proc) {
     return proc->pid;
 }
 
+/**
+ * Insert the process into the process queue used for FIFO
+ * @param priority
+ * @param pid
+ * @param policy
+ * @return
+ */
 int
 insert_proc_q(int priority, int pid, int policy) {
     int valid = -1;
@@ -705,6 +746,10 @@ insert_proc_q(int priority, int pid, int policy) {
     return valid;
 }
 
+/**
+ * Set the scheduler for process pid with policy, priority: SCHED_FIFO, SCHED_RR
+ * @return
+ */
 int
 sys_setscheduler(void) {
     int pid;

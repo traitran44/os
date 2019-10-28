@@ -3,8 +3,18 @@
 #include "user.h"
 #include "sched.h"
 
+/**
+ * ALl priority is the same
+ * @param num_proc
+ * @param parent_po
+ * @param child_po
+ * @param parent_pri
+ * @param child_pri
+ * @param loop_count
+ * @return
+ */
 int
-sched_test1(int num_proc, int parent_po, int child_po, int parent_pri, int child_pri, int loop_count) {
+sched_test1(int num_proc, int parent_po, int child_po, int parent_pri, int child_pri, uint loop_count) {
     setscheduler(-1, parent_po, parent_pri);
     int pid;
     for (int i = 0; i < num_proc; i++) {
@@ -14,8 +24,8 @@ sched_test1(int num_proc, int parent_po, int child_po, int parent_pri, int child
             printf(1, "Created %d\n", pid);
         } else if (pid == 0) {
             int k = 0;
-            for (int j = 0; j < loop_count; j++) {
-                k += 1;
+            for (uint j = 0; j < loop_count; j++) {
+                k += 12;
                 k *= 0.9;
             }
             exit();
@@ -28,6 +38,16 @@ sched_test1(int num_proc, int parent_po, int child_po, int parent_pri, int child
     return 0;
 }
 
+/**
+ * Increasing priority
+ * @param num_proc
+ * @param parent_po
+ * @param child_po
+ * @param parent_pri
+ * @param child_pri
+ * @param loop_count
+ * @return
+ */
 int
 sched_test2(int num_proc, int parent_po, int child_po, int parent_pri, int child_pri, int loop_count) {
     setscheduler(-1, parent_po, parent_pri);
@@ -53,6 +73,16 @@ sched_test2(int num_proc, int parent_po, int child_po, int parent_pri, int child
     return 0;
 }
 
+/**
+ * Decreasing priority
+ * @param num_proc
+ * @param parent_po
+ * @param child_po
+ * @param parent_pri
+ * @param child_pri
+ * @param loop_count
+ * @return
+ */
 int
 sched_test3(int num_proc, int parent_po, int child_po, int parent_pri, int child_pri, int loop_count) {
     setscheduler(-1, parent_po, parent_pri);
@@ -79,6 +109,15 @@ sched_test3(int num_proc, int parent_po, int child_po, int parent_pri, int child
 }
 
 
+/**
+ * Forks child processes and setscheduler
+ * Mixing Increasing, decreasing and same priority
+ * @param num_proc
+ * @param parent_po
+ * @param parent_pri
+ * @param loop_count
+ * @return
+ */
 int
 sched_test4(int num_proc, int parent_po, int parent_pri, int loop_count) {
     setscheduler(-1, parent_po, parent_pri);
@@ -94,10 +133,8 @@ sched_test4(int num_proc, int parent_po, int parent_pri, int loop_count) {
             printf(1, "Created %d\n", pid);
         } else if (pid == 0) {
             int k = 0;
-            printf(1, "%d, ", k);
             for (int j = 0; j < loop_count; j++) {
                 k += 1;
-                printf(1, "%d, ", k);
             }
             printf(1, "\n");
             exit();
@@ -116,15 +153,15 @@ main(int argc, char *argv[]) {
     // args order (int num_proc, int parent_po, int child_po, int parent_pri, int child_pri);
 
     // child priority same throughout
-//    printf(1, "DEFAULT\n");
+//    printf(1, "Parent RR, Children RR\n");
 //    sched_test1(5, SCHED_RR, SCHED_RR, 0, 0, 2000);
-//    printf(1, "Create all child, and then execute child\n");
+//    printf(1, "Parent RR, Children RR\n");
 //    sched_test1(5, SCHED_RR, SCHED_RR, 99, 0, 2000);
 //    printf(1, "Create child, execute til DONE, then create next child\n");
 //    sched_test1(5, SCHED_RR, SCHED_FIFO, 0, 0, 2000);
 //    printf(1, "Create all child, execute child in RR\n");
 //    sched_test1(5, SCHED_FIFO, SCHED_RR, 0, 0, 4000000000);
-//    printf(1, "Creaate all child, execute child in FIFO\n");
+//    printf(1, "Create all child, execute child in FIFO\n");
 //    sched_test1(5, SCHED_FIFO, SCHED_FIFO, 99, 0, 2000);
 
     // child priority increase
@@ -139,8 +176,8 @@ main(int argc, char *argv[]) {
 //    sched_test3(4, SCHED_RR, SCHED_FIFO, 99, 10);  // alternate between create child, child run to finish, and create next child
 //    sched_test3(4, SCHED_RR, SCHED_RR, 99, 10);  // create all child processes, then execute in priority
 
-//    sched_test4(10, SCHED_FIFO, 99, 2000);
-    sched_test4(10, SCHED_RR, 99, 100);
+    sched_test4(8, SCHED_FIFO, 99, 2000);
+//    sched_test4(10, SCHED_RR, 99, 100);
 
     exit();
 }
