@@ -202,8 +202,8 @@ exit(void) {
     end_op();
     proc->cwd = 0;
 
-    cprintf("Exitting PID: %d\n", proc->pid);
     acquire(&ptable.lock);
+    cprintf("Exitting PID: %d\n", proc->pid);
 
     // Parent might be sleeping in wait().
     wakeup1(proc->parent);
@@ -291,6 +291,7 @@ scheduler(void) {
         sti();
         // Loop over process table looking for process to run.
         acquire(&ptable.lock);
+
         if (fifo_size() > 0) {
             p = fifo_q();
             if (p->state != RUNNABLE)
@@ -307,17 +308,35 @@ scheduler(void) {
             }
             c->proc = 0;
         } else {
+            struct proc sorted_ptable[NPROC];
+            int max_priority = -1;
             for (int i = 0; i < NPROC; i++) {
-                p = &ptable.proc[i];
+                if (ptable.proc[i].priority > max_priority && ptable.proc[i].state == RUNNABLE) {
+                    max_priority = ptable.proc[i].priority;
+                }
+            }
+            int sorted_size = 0;
+            for (int i = 0; i < NPROC; i++) {
+                if (ptable.proc[i].priority == max_priority && ptable.proc[i].state == RUNNABLE) {
+                    sorted_ptable[sorted_size] = ptable.proc[i];
+                    sorted_size++;
+                }
+            }
+            for (int i = 0; i < sorted_size; i++) {
+                for (int j = 0; j < NPROC; j++) {
+                    if (ptable.proc[j].pid == sorted_ptable[i].pid && ptable.proc[j].state == RUNNABLE) {
+                        p = &ptable.proc[j];
+                    }
+                }
                 if (p->state != RUNNABLE) {
                     continue;
                 }
-
-                int priority = p->priority;
-                for (int j = 0; j < NPROC; j++) {
-                    if (ptable.proc[j].priority > priority && ptable.proc[j].state == RUNNABLE)
-                        p = &ptable.proc[j];
-                }
+//                cprintf("PID: %d\n", p->pid);
+//                int priority = p->priority;
+//                for (int j = 0; j < NPROC; j++) {
+//                    if (sorted_ptable[j].priority > priority && sorted_ptable[j].state == RUNNABLE)
+//                        p = &sorted_ptable[j];
+//                }
 //                cprintf("Running PID: %d\n", p->pid);
 
                 // Switch to chosen process.  It is the process's job
@@ -476,8 +495,11 @@ wakeup1(void *chan) {
     struct proc *p;
 
     for (p = ptable.proc; p < &ptable.proc[NPROC]; p++)
-        if (p->state == SLEEPING && p->chan == chan)
+        if (p->state == SLEEPING && p->chan == chan) {
             p->state = RUNNABLE;
+            if (p->policy == SCHED_FIFO)
+                ptable.queue_size++;
+        }
 }
 
 // Wake up all processes sleeping on chan.

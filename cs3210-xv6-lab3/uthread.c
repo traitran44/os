@@ -86,20 +86,21 @@ thread_yield(void) {
 
 static void
 thread1(void) {
-    int i;
+//    int i;
     printf(1, "CPU: %d. my thread running\n", cpu());
-    for (i = 0; i < 25; i++) {
-        printf(1, "my thread 0x%x\n", (int) current_thread);
-    }
+//    for (i = 0; i < 25; i++) {
+//        printf(1, "my thread 0x%x\n", (int) current_thread);
+//    }
     printf(1, "my thread: exit\n");
     exit();
 }
 
-//static void
-//blockthread(void) {
-//    while(1) {}
-//    exit();
-//}
+static void
+blockthread(void) {
+    printf(1, "Block thread hanging... CPU: %d\n", cpu());
+    while(1) {}
+    exit();
+}
 
 static void
 thread2(void) {
@@ -116,7 +117,7 @@ thread2(void) {
 int
 main(int argc, char *argv[]) {
     thread_create(thread1);
-//    thread_create(blockthread);
+    thread_create(blockthread);
     thread_create(thread2);
     for (int i = 0; i < 3; i++) {
         printf(1, "%Finished: join(%d) \n", join());
