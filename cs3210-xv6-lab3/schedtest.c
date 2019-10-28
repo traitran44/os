@@ -4,7 +4,7 @@
 #include "sched.h"
 
 int
-sched_test1(int num_proc, int parent_po, int child_po, int parent_pri, int child_pri, int loop_count) {
+same_priority(int num_proc, int parent_po, int child_po, int parent_pri, int child_pri, int loop_count) {
     setscheduler(-1, parent_po, parent_pri);
     int pid;
     for (int i = 0; i < num_proc; i++) {
@@ -29,7 +29,7 @@ sched_test1(int num_proc, int parent_po, int child_po, int parent_pri, int child
 }
 
 int
-sched_test2(int num_proc, int parent_po, int child_po, int parent_pri, int child_pri, int loop_count) {
+increasing_priority(int num_proc, int parent_po, int child_po, int parent_pri, int child_pri, int loop_count) {
     setscheduler(-1, parent_po, parent_pri);
     int pid;
     for (int i = 0; i < num_proc; i++) {
@@ -54,7 +54,7 @@ sched_test2(int num_proc, int parent_po, int child_po, int parent_pri, int child
 }
 
 int
-sched_test3(int num_proc, int parent_po, int child_po, int parent_pri, int child_pri, int loop_count) {
+decreasing_priority(int num_proc, int parent_po, int child_po, int parent_pri, int child_pri, int loop_count) {
     setscheduler(-1, parent_po, parent_pri);
     int pid;
     for (int i = 0; i < num_proc; i++) {
@@ -80,7 +80,7 @@ sched_test3(int num_proc, int parent_po, int child_po, int parent_pri, int child
 
 
 int
-sched_test4(int num_proc, int parent_po, int parent_pri, int loop_count) {
+diff_policy(int num_proc, int parent_po, int parent_pri, int loop_count) {
     setscheduler(-1, parent_po, parent_pri);
     int pid;
     for (int i = 0; i < num_proc; i++) {
@@ -94,12 +94,9 @@ sched_test4(int num_proc, int parent_po, int parent_pri, int loop_count) {
             printf(1, "Created %d\n", pid);
         } else if (pid == 0) {
             int k = 0;
-            printf(1, "%d, ", k);
             for (int j = 0; j < loop_count; j++) {
                 k += 1;
-                printf(1, "%d, ", k);
             }
-            printf(1, "\n");
             exit();
         }
     }
@@ -117,30 +114,30 @@ main(int argc, char *argv[]) {
 
     // child priority same throughout
 //    printf(1, "DEFAULT\n");
-//    sched_test1(5, SCHED_RR, SCHED_RR, 0, 0, 2000);
+//    same_priority(5, SCHED_RR, SCHED_RR, 0, 0, 2000);
 //    printf(1, "Create all child, and then execute child\n");
-//    sched_test1(5, SCHED_RR, SCHED_RR, 99, 0, 2000);
-//    printf(1, "Create child, execute til DONE, then create next child\n");
-//    sched_test1(5, SCHED_RR, SCHED_FIFO, 0, 0, 2000);
+//    same_priority(5, SCHED_RR, SCHED_RR, 99, 0, 2000);
+////    printf(1, "Create child, execute til DONE, then create next child\n");
+////    same_priority(5, SCHED_RR, SCHED_FIFO, 0, 0, 2000);
 //    printf(1, "Create all child, execute child in RR\n");
-//    sched_test1(5, SCHED_FIFO, SCHED_RR, 0, 0, 4000000000);
+//    same_priority(5, SCHED_FIFO, SCHED_RR, 0, 0, 4000000000);
 //    printf(1, "Creaate all child, execute child in FIFO\n");
-//    sched_test1(5, SCHED_FIFO, SCHED_FIFO, 99, 0, 2000);
+//    same_priority(5, SCHED_FIFO, SCHED_FIFO, 99, 0, 2000);
+//
+//    // child priority increase
+//    increasing_priority(5, SCHED_RR, SCHED_RR, 99, 0, 200); // create all child in RR, execute by priority
+//    increasing_priority(5, SCHED_RR, SCHED_RR, 0, 0, 200);  // create child, execute child, create next child....
+//    increasing_priority(5, SCHED_RR, SCHED_FIFO, 0, 0, 200);   // create child, execute child, create next child...
+//    increasing_priority(4, SCHED_FIFO, SCHED_FIFO, 99, 0, 200);  // create all children, execute children in reverse order
+//
+//    // priority decrease
+//    decreasing_priority(4, SCHED_FIFO, SCHED_FIFO, 99, 10, 200);  // create all children, execute in increasing order
+//    decreasing_priority(4, SCHED_FIFO, SCHED_RR, 99, 10, 200);  // create all children, execute in increasing order
+//    decreasing_priority(4, SCHED_RR, SCHED_FIFO, 99, 10, 200);  // alternate between create child, child run to finish, and create next child
+//    decreasing_priority(4, SCHED_RR, SCHED_RR, 99, 10, 200);  // create all child processes, then execute in priority
 
-    // child priority increase
-//    sched_test2(5, SCHED_RR, SCHED_RR, 99, 0, 200); // create all child in RR, execute by priority
-//    sched_test2(5, SCHED_RR, SCHED_RR, 0, 0, 200);  // create child, execute child, create next child....
-//    sched_test2(5, SCHED_RR, SCHED_FIFO, 0, 0, 200);   // create child, execute child, create next child...
-//    sched_test2(4, SCHED_FIFO, SCHED_FIFO, 99, 0, 200);  // create all children, execute children in reverse order
-
-    // priority decrease
-//    sched_test3(4, SCHED_FIFO, SCHED_FIFO, 99, 10);  // create all children, execute in increasing order
-//    sched_test3(4, SCHED_FIFO, SCHED_RR, 99, 10);  // create all children, execute in increasing order
-//    sched_test3(4, SCHED_RR, SCHED_FIFO, 99, 10);  // alternate between create child, child run to finish, and create next child
-//    sched_test3(4, SCHED_RR, SCHED_RR, 99, 10);  // create all child processes, then execute in priority
-
-//    sched_test4(10, SCHED_FIFO, 99, 2000);
-    sched_test4(10, SCHED_RR, 99, 100);
+    diff_policy(10, SCHED_FIFO, 99, 2000);
+//    diff_policy(10, SCHED_RR, 99, 100);
 
     exit();
 }

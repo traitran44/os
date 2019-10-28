@@ -89,20 +89,19 @@ thread1(void) {
     printf(1, "my thread: exit\n");
     exit();
 }
-
+//
 //static void
-//blockthread(void) {
+//block(void) {
 //    while(1) {}
 //    exit();
 //}
 
 static void
 thread2(void) {
-//    int i;
     printf(1, "CPU: %d. my thread running\n", cpu());
-//    for (i = 0; i < 50; i++) {
-//        printf(1, "After block, my thread 0x%x\n", (int) current_thread);
-//    }
+    for (int i = 0; i < 50; i++) {
+        printf(1, "After block, my thread 0x%x\n", (int) current_thread);
+    }
     printf(1, "my thread: exit\n");
     exit();
 }
@@ -111,10 +110,10 @@ thread2(void) {
 int
 main(int argc, char *argv[]) {
     thread_create(thread1);
-//    thread_create(blockthread);
+//    thread_create(block);
     thread_create(thread2);
     for (int i = 0; i < 3; i++) {
-        printf(1, "%Finished: join(%d) \n", join());
+        printf(1, "Joined thread: %d\n", join());
     }
     exit();
 }
