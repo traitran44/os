@@ -1,7 +1,7 @@
-//
-// Created by tt on 10/24/19.
-//
-
+/// \file
+/**
+ * Policy constants
+ */
 #ifndef XV6_SCHED_H
 #define XV6_SCHED_H
 #define SCHED_RR 0

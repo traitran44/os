@@ -1,3 +1,4 @@
+/// \file
 #include "types.h"
 #include "stat.h"
 #include "user.h"
@@ -65,6 +66,10 @@ thread_schedule(void) {
         next_thread = 0;
 }
 
+/**
+ * Create a new thread using clone system call.
+ * @param func
+ */
 void
 thread_create(void (*func)()) {
     char stack[STACK_SIZE];
@@ -81,17 +86,18 @@ thread_yield(void) {
 
 static void
 thread1(void) {
-    int i;
+//    int i;
     printf(1, "CPU: %d. my thread running\n", cpu());
-    for (i = 0; i < 25; i++) {
-        printf(1, "my thread 0x%x\n", (int) current_thread);
-    }
+//    for (i = 0; i < 25; i++) {
+//        printf(1, "my thread 0x%x\n", (int) current_thread);
+//    }
     printf(1, "my thread: exit\n");
     exit();
 }
 
 static void
 blockthread(void) {
+    printf(1, "Block thread hanging... CPU: %d\n", cpu());
     while(1) {}
     exit();
 }
