@@ -1,0 +1,3 @@
+/home/trai/Desktop/cs3210-lab-ttran96/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/trai/Desktop/cs3210-lab-ttran96/cmake-build-debug/CMakeFiles/xv6.dir
+/home/trai/Desktop/cs3210-lab-ttran96/cmake-build-debug/CMakeFiles/edit_cache.dir

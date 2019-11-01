@@ -1,0 +1,5 @@
+1. Given the current implementation, even if we have many cores it would not run in parallel because the thread is not communicated to another CPU's scheduler to be run.
+
+2. If one thread run into an infinite loop, then it would block another thread from finishing its job. This would cause the process to never finish. If this process has higher priority to run than other process, then it would hang the entire system.
+
+3. In order to solve this problem, the scheduler can implement a round robin policy which would interrupt the thread with a timer when its time runs out. The trap then take over and call the scheduler to reschedule for new thread to run.
